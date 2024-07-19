@@ -47,6 +47,9 @@ $ npm run start:prod
 
 ## Test
 
+DATABASE_URL="postgresql://postgres:postgres@localhost:5433/event_calendar"
+
+
 ```bash
 # unit tests
 $ npm run test
