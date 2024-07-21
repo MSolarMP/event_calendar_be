@@ -1,4 +1,4 @@
-// src/user/user.service.ts
+// src/user/organiser.service.ts
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from "../../prisma/prisma.service";
 
@@ -12,5 +12,9 @@ export class UserService {
         email,
       },
     });
+  }
+
+  async fetchAllUsers() {
+    return this.prisma.user.findMany();
   }
 }

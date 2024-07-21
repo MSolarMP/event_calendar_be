@@ -1,4 +1,4 @@
-// src/user/user.controller.ts
+// src/user/organiser.controller.ts
 import { Controller, Get, Param } from '@nestjs/common';
 import { UserService } from './user.service';
 
@@ -9,5 +9,10 @@ export class UserController {
   @Get(':email')
   async findByEmail(@Param('email') email: string) {
     return this.userService.findByEmail(email);
+  }
+
+  @Get()
+  async fetchAllUsers() {
+    return this.userService.fetchAllUsers();
   }
 }

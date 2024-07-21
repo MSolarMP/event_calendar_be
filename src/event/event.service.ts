@@ -14,8 +14,11 @@ export class EventService {
   }
 
   async findAll() {
-    // return this.prisma.event.findMany();
-    return "hello"
+    return this.prisma.event.findMany({
+      orderBy: {
+        id: 'asc',
+      },
+    });
   }
 
   async findOne(id: number) {

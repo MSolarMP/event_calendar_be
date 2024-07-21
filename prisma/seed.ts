@@ -1,6 +1,5 @@
 import { PrismaClient } from "@prisma/client";
 import { faker } from "@faker-js/faker";
-import { parse, addDays, format } from "date-fns";
 
 const prisma = new PrismaClient();
 
@@ -12,6 +11,20 @@ function getRandomDate(start: Date, end: Date): Date {
 }
 
 async function main() {
+    // Create event types
+    const eventTypes = ['A', 'B', 'C', 'D', 'E'].map(name => ({ name }));
+    await prisma.eventType.createMany({ data: eventTypes });
+
+    // Retrieve event types from the database
+    const eventTypeRecords = await prisma.eventType.findMany();
+
+    // Create locations
+    const locations = ['New York', 'Los Angeles', 'Chicago', 'Houston', 'Phoenix'].map(name => ({ name }));
+    await prisma.location.createMany({ data: locations });
+
+    // Retrieve locations from the database
+    const locationRecords = await prisma.location.findMany();
+
     // Create 5 users
     const userPromises = [];
     for (let i = 0; i < 5; i++) {
@@ -41,28 +54,27 @@ async function main() {
     }
     const createdOrganizers = await Promise.all(organizerPromises);
 
-    // Define event types
-    const eventTypes = ['A', 'B', 'C', 'D', 'E'];
-
     // Define date range for random dates
     const startDate = new Date(2024, 0, 1); // January 1, 2024
     const endDate = new Date(2024, 11, 31); // December 31, 2024
 
-    // Create 5 events for each organizer with random dates
+    // Create 5 events for each organizer with random dates, event types, and locations
     for (const organizer of createdOrganizers) {
         const eventPromises = [];
         for (let i = 0; i < 5; i++) {
             const randomDate = getRandomDate(startDate, endDate);
-            const formattedDate = format(randomDate, "yyyy-MM-dd'T'HH:mm:ss");
+            const randomEventType = eventTypeRecords[Math.floor(Math.random() * eventTypeRecords.length)];
+            const randomLocation = locationRecords[Math.floor(Math.random() * locationRecords.length)];
 
             eventPromises.push(
                 prisma.event.create({
                     data: {
                         title: faker.lorem.sentence(),
                         description: faker.lorem.paragraph(),
-                        type: eventTypes[i],
-                        date: new Date(formattedDate), // Use the random date
+                        date: randomDate,
                         organiserID: organizer.id,
+                        eventTypeID: randomEventType.id,
+                        locationId: randomLocation.id, // Use locationId to reference the Location table
                     },
                 })
             );

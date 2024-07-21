@@ -23,12 +23,27 @@ model Organiser {
   events Event[] // Define the relation to Event here
 }
 
+model Location {
+  id     Int     @id @default(autoincrement())
+  name   String
+  events Event[]
+}
+
+model EventType {
+  id     Int     @id @default(autoincrement())
+  name   String
+  events Event[]
+}
+
 model Event {
   id          Int       @id @default(autoincrement())
   title       String
   description String
-  type        String
+  eventType   EventType @relation(fields: [eventTypeID], references: [id])
+  eventTypeID Int
   date        DateTime
   organiser   Organiser @relation(fields: [organiserID], references: [id])
   organiserID Int
+  Location    Location  @relation(fields: [locationId], references: [id])
+  locationId  Int
 }
