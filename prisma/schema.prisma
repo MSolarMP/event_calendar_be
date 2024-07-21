@@ -8,14 +8,27 @@ generator client {
 }
 
 model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
+  id        Int        @id @default(autoincrement())
+  email     String     @unique
+  name      String?
+  password  String
+  Organiser Organiser?
+}
+
+model Organiser {
+  id     Int     @id @default(autoincrement())
+  name   String?
+  user   User?   @relation(fields: [userID], references: [id])
+  userID Int?    @unique
+  events Event[] // Define the relation to Event here
 }
 
 model Event {
-  id          Int      @id @default(autoincrement())
+  id          Int       @id @default(autoincrement())
   title       String
   description String
+  type        String
   date        DateTime
+  organiser   Organiser @relation(fields: [organiserID], references: [id])
+  organiserID Int
 }

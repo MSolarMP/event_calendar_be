@@ -36,29 +36,31 @@ $ npm install
 
 ```bash
 # development
-$ npm run start
+$ npm run.js start
 
 # watch mode
-$ npm run start:dev
+$ npm run.js start:dev
 
 # production mode
-$ npm run start:prod
+$ npm run.js start:prod
 ```
 
 ## Test
 
 DATABASE_URL="postgresql://postgres:postgres@localhost:5433/event_calendar"
-
+npx prisma migrate reset
+npx ts-node prisma/seed.ts
+docker prune
 
 ```bash
 # unit tests
-$ npm run test
+$ npm run.js test
 
 # e2e tests
-$ npm run test:e2e
+$ npm run.js test:e2e
 
 # test coverage
-$ npm run test:cov
+$ npm run.js test:cov
 ```
 
 ## Support
