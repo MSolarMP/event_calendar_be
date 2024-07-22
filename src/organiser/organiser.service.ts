@@ -7,6 +7,10 @@ export class OrganiserService {
   constructor(private readonly prisma: PrismaService) {}
 
   async fetchAllOrganisers() {
-    return this.prisma.organiser.findMany();
+    return this.prisma.organiser.findMany({
+      orderBy: {
+        id: 'asc',
+      },
+    });
   }
 }

@@ -3,7 +3,7 @@ import { Controller, Get, Post, Put, Delete, Param, Body } from '@nestjs/common'
 import { CategoryService } from './category.service';
 import { Event } from '@prisma/client';
 
-@Controller('types')
+@Controller('category')
 export class CategoryController {
   constructor(private readonly categoryService: CategoryService) {}
 
@@ -12,7 +12,7 @@ export class CategoryController {
   //   return this.eventService.create(eventData);
   // }
 
-  // @Get()
+  @Get()
   async getAllEvents() {
     return this.categoryService.findAll();
   }

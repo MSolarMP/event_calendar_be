@@ -14,6 +14,10 @@ export class LocationService {
   }
 
   async findAll() {
-    return this.prisma.location.findMany();
+    return this.prisma.location.findMany({
+      orderBy: {
+        id: 'asc',
+      },
+    });
   }
 }
