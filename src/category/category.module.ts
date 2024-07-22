@@ -1,12 +1,12 @@
 // src/event/location.module.ts
 import { Module } from '@nestjs/common';
 import { PrismaModule } from "../../prisma/prisma.module";
-import { TypeController } from './type.controller';
-import { TypeService } from './type.service';
+import { CategoryController } from './category.controller';
+import { CategoryService } from './category.service';
 
 @Module({
   imports: [PrismaModule], // Import PrismaModule if you haven't already
-  controllers: [TypeController],
-  providers: [TypeService],
+  controllers: [CategoryController],
+  providers: [CategoryService],
 })
-export class TypeModule {}
+export class CategoryModule {}

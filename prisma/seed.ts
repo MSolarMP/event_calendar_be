@@ -13,10 +13,10 @@ function getRandomDate(start: Date, end: Date): Date {
 async function main() {
     // Create event types
     const eventTypes = ['A', 'B', 'C', 'D', 'E'].map(name => ({ name }));
-    await prisma.eventType.createMany({ data: eventTypes });
+    await prisma.category.createMany({ data: eventTypes });
 
     // Retrieve event types from the database
-    const eventTypeRecords = await prisma.eventType.findMany();
+    const eventTypeRecords = await prisma.category.findMany();
 
     // Create locations
     const locations = ['New York', 'Los Angeles', 'Chicago', 'Houston', 'Phoenix'].map(name => ({ name }));

@@ -47,7 +47,7 @@ $ npm run.js start:prod
 
 ## Test
 
-DATABASE_URL="postgresql://postgres:postgres@localhost:5433/event_calendar"
+DATABASE_URL="postgresql://postgres:postgres@localhost:5432/event_calendar"
 npx prisma migrate reset
 npx ts-node prisma/seed.ts
 docker prune

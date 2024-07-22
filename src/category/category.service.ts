@@ -4,7 +4,7 @@ import {PrismaService} from "../../prisma/prisma.service";
 import {Event} from '@prisma/client';
 
 @Injectable()
-export class TypeService {
+export class CategoryService {
   constructor(private readonly prisma: PrismaService) {}
 
   async create(eventData: Event): Promise<Event> {
@@ -14,6 +14,6 @@ export class TypeService {
   }
 
   async findAll() {
-    return this.prisma.eventType.findMany();
+    return this.prisma.category.findMany();
   }
 }

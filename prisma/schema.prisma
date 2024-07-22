@@ -29,7 +29,7 @@ model Location {
   events Event[]
 }
 
-model EventType {
+model Category {
   id     Int     @id @default(autoincrement())
   name   String
   events Event[]
@@ -39,7 +39,7 @@ model Event {
   id          Int       @id @default(autoincrement())
   title       String
   description String
-  eventType   EventType @relation(fields: [eventTypeID], references: [id])
+  eventType   Category  @relation(fields: [eventTypeID], references: [id])
   eventTypeID Int
   date        DateTime
   organiser   Organiser @relation(fields: [organiserID], references: [id])
