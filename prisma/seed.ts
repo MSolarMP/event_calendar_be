@@ -46,7 +46,7 @@ async function main() {
         organizerPromises.push(
             prisma.organiser.create({
                 data: {
-                    name: `Organizer for ${user.name}`,
+                    name: faker.company.name(),
                     userID: user.id,
                 },
             })
@@ -69,7 +69,7 @@ async function main() {
             eventPromises.push(
                 prisma.event.create({
                     data: {
-                        title: faker.lorem.sentence(),
+                        title: faker.word.words(),
                         description: faker.lorem.paragraph(),
                         date: randomDate,
                         organiserID: organizer.id,

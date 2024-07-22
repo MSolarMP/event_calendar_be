@@ -18,6 +18,11 @@ export class EventService {
       orderBy: {
         id: 'asc',
       },
+      include: {
+        organiser: true,   // Include related organiser data
+        Location: true,    // Include related location data
+        eventType: true    // Include related category data
+      }
     });
   }
 
