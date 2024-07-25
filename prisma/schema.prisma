@@ -36,14 +36,19 @@ model Category {
 }
 
 model Event {
-  id          Int       @id @default(autoincrement())
-  title       String
-  description String
-  eventType   Category  @relation(fields: [eventTypeID], references: [id])
-  eventTypeID Int
-  date        DateTime
-  organiser   Organiser @relation(fields: [organiserID], references: [id])
-  organiserID Int
-  Location    Location  @relation(fields: [locationId], references: [id])
-  locationId  Int
+  id           Int       @id @default(autoincrement())
+  title        String
+  description  String
+  url          String?
+  eventType    Category  @relation(fields: [eventTypeID], references: [id])
+  eventTypeID  Int
+  date         DateTime
+  createdAt    DateTime
+  updatedAt    DateTime?
+  organiser    Organiser @relation(fields: [organiserID], references: [id])
+  organiserID  Int
+  Location     Location  @relation(fields: [locationId], references: [id])
+  locationId   Int
+  featured     Boolean   @default(false)
+  featuredRate Int?      @default(0)
 }

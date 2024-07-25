@@ -15,13 +15,13 @@ export class EventService {
 
   async findAll() {
     return this.prisma.event.findMany({
-      orderBy: {
-        id: 'asc',
-      },
+      orderBy: [
+        { id: 'asc' }
+      ],
       include: {
-        organiser: true,   // Include related organiser data
-        Location: true,    // Include related location data
-        eventType: true    // Include related category data
+        organiser: true,
+        Location: true,
+        eventType: true
       }
     });
   }

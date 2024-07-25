@@ -10,6 +10,13 @@ function getRandomDate(start: Date, end: Date): Date {
     return new Date(randomTime);
 }
 
+// Function to generate a random date before the given event date
+function getRandomCreatedDate(eventDate: Date, start: Date): Date {
+    const dateRange = eventDate.getTime() - start.getTime();
+    const randomTime = Math.random() * dateRange + start.getTime();
+    return new Date(randomTime);
+}
+
 async function main() {
     // Create event types
     const eventTypes = ['A', 'B', 'C', 'D', 'E'].map(name => ({ name }));
@@ -58,27 +65,50 @@ async function main() {
     const startDate = new Date(2024, 0, 1); // January 1, 2024
     const endDate = new Date(2024, 11, 31); // December 31, 2024
 
-    // Create 5 events for each organizer with random dates, event types, and locations
+    // Create events
     for (const organizer of createdOrganizers) {
         const eventPromises = [];
-        for (let i = 0; i < 5; i++) {
-            const randomDate = getRandomDate(startDate, endDate);
-            const randomEventType = eventTypeRecords[Math.floor(Math.random() * eventTypeRecords.length)];
-            const randomLocation = locationRecords[Math.floor(Math.random() * locationRecords.length)];
 
+        // Create 1 featured event with a unique featuredRate from 1 to 5
+        const featuredRates = [1, 2, 3, 4, 5];
+        const rateIndex = Math.floor(Math.random() * featuredRates.length);
+        const featuredRate = featuredRates[rateIndex];
+        const eventDate = getRandomDate(startDate, endDate);
+        eventPromises.push(
+            prisma.event.create({
+                data: {
+                    title: faker.word.words(),
+                    description: faker.lorem.paragraph(),
+                    date: eventDate,
+                    createdAt: getRandomCreatedDate(eventDate, startDate),
+                    organiserID: organizer.id,
+                    eventTypeID: eventTypeRecords[Math.floor(Math.random() * eventTypeRecords.length)].id,
+                    locationId: locationRecords[Math.floor(Math.random() * locationRecords.length)].id,
+                    featured: true, // Set the featured event
+                    featuredRate: featuredRate,
+                },
+            })
+        );
+
+        // Create 4 more events (non-featured)
+        for (let i = 0; i < 4; i++) {
+            const nonFeaturedEventDate = getRandomDate(startDate, endDate);
             eventPromises.push(
                 prisma.event.create({
                     data: {
                         title: faker.word.words(),
                         description: faker.lorem.paragraph(),
-                        date: randomDate,
+                        date: nonFeaturedEventDate,
+                        createdAt: getRandomCreatedDate(nonFeaturedEventDate, startDate),
                         organiserID: organizer.id,
-                        eventTypeID: randomEventType.id,
-                        locationId: randomLocation.id, // Use locationId to reference the Location table
+                        eventTypeID: eventTypeRecords[Math.floor(Math.random() * eventTypeRecords.length)].id,
+                        locationId: locationRecords[Math.floor(Math.random() * locationRecords.length)].id,
+                        featured: false,
                     },
                 })
             );
         }
+
         await Promise.all(eventPromises);
     }
 }
